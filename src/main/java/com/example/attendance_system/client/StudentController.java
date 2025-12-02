@@ -33,8 +33,14 @@ public class StudentController {
     }
 
     @GetMapping("/all")
+    public String viewAllStudents(Model model) {
+        model.addAttribute("students", students);
+        return "students-list";
+    }
+
+    @GetMapping("/all/json")
     @ResponseBody
-    public List<Student> getAllStudents() {
+    public List<Student> getAllStudentsJson() {
         return students;
     }
 }

@@ -3,49 +3,239 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Students</title>
+    <title>Student Attendance System</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
-        .input-field {
-            transition: all 0.3s;
-            border: 2px solid #e2e8f0;
-            border-radius: 6px;
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-group label i {
+            margin-right: 8px;
+            color: #667eea;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-control:hover {
+            border-color: #b8c5f2;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-submit i {
+            margin-right: 8px;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .links a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .links a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        .icon {
+            font-size: 50px;
+            color: #667eea;
+            margin-bottom: 20px;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<div class="form-container w-full max-w-2xl mx-4">
-
-    <form th:action="@{/students/create}" th:object="${student}" method="post" enctype="multipart/form-data" class="px-8 py-6" id="student">
-
-        <div class="mb-6">
-            <label class="block text-gray-700 font-medium mb-2" for="name">
-                <i class="fas fa-tag mr-2 text-blue-500"></i>Name
-            </label>
-            <input class="input-field w-full px-4 py-3" type="text" id="name" th:field="*{name}" placeholder="Enter user name" required>
-            <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    <div class="container">
+        <div class="header">
+            <div class="icon">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <h1>Student Registration</h1>
+            <p>Enter student details for attendance system</p>
         </div>
 
-        <div class="mb-6">
-            <label class="block text-gray-700 font-medium mb-2" for="name">
-                <i class="fas fa-tag mr-2 text-blue-500"></i>Password
-            </label>
-            <input class="input-field w-full px-4 py-3" type="text" id="password" th:field="*{password}" placeholder="Enter password" required>
-            <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+        <!-- Success Message -->
+        <div class="alert alert-success" th:if="${message}">
+            <i class="fas fa-check-circle"></i>
+            <span th:text="${message}"></span>
         </div>
-        <div class="flex justify-between mt-8">
-            <button type="submit" class="btn-submit text-white font-medium px-6 py-3 rounded-lg">
-                <i class="fas fa-check mr-2"></i>Submit
+
+        <form th:action="@{/students/create}" th:object="${student}" method="post">
+            <div class="form-group">
+                <label for="name">
+                    <i class="fas fa-user"></i>Student Name
+                </label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="name" 
+                    th:field="*{name}" 
+                    placeholder="Enter student name" 
+                    required>
+                <div class="error-message" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">
+                    <i class="fas fa-lock"></i>Password
+                </label>
+                <input 
+                    type="password" 
+                    class="form-control" 
+                    id="password" 
+                    th:field="*{password}" 
+                    placeholder="Enter password" 
+                    required>
+                <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane"></i>Register Student
             </button>
+        </form>
+
+        <div class="links">
+            <a href="/students/all">
+                <i class="fas fa-list"></i> View All Students
+            </a>
         </div>
-    </form>
-</div>
-<script>
+    </div>
+
+    <script>
 
 
 
