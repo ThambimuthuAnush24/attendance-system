@@ -21,7 +21,7 @@
 <body>
 <div class="form-container w-full max-w-2xl mx-4">
 
-    <form th:action="@{/students/create}"  method="post" enctype="multipart/form-data" class="px-8 py-6" id="student">
+    <form th:action="@{/students/create}" th:object="${student}" method="post" enctype="multipart/form-data" class="px-8 py-6" id="student">
 
         <div class="mb-6">
             <label class="block text-gray-700 font-medium mb-2" for="name">
